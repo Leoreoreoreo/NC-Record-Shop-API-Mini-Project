@@ -1,0 +1,6 @@
+@NC_Record_Shop_API_Mini_Project_HostAddress = http://localhost:5113
+
+GET {{NC_Record_Shop_API_Mini_Project_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
