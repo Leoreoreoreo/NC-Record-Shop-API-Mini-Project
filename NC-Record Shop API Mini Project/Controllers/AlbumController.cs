@@ -15,9 +15,10 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult GetAllAlbums()
         {
-            return NoContent();
+            var result = _albumService.GetAllAlbums();
+            return Ok(result);
         }
     }
 }
