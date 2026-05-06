@@ -1,6 +1,7 @@
 using NC_Record_Shop_API_Mini_Project.Repositories;
 using NC_Record_Shop_API_Mini_Project.Models;
 
+
 namespace NC_Record_Shop_API_Mini_Project.Services
 {
     public interface IAlbumService
@@ -20,7 +21,11 @@ namespace NC_Record_Shop_API_Mini_Project.Services
             _albumRepository = albumRepository;
         }
 
-        public List<Album> GetAllAlbums() { return null; }
+        public List<Album> GetAllAlbums()
+        {
+            return _albumRepository.GetAllAlbums();
+            
+        }
         public Album GetAlbumById(int id) { return null; }
         public Album AddAlbum(Album album) { return null; }
         public Album UpdateAlbum(int id, Album album) { return null; }
