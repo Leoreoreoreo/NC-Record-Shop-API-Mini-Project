@@ -18,7 +18,10 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         {
             _appDbContext = appDbContext;
         }
-        public List<Album> GetAllAlbums() { return null; }
+        public List<Album> GetAllAlbums() 
+        { 
+            return _appDbContext.Albums.ToList(); 
+        }
         public Album GetAlbumById(int id) { return null; }
         public Album AddAlbum(Album album) { return null; }
         public Album UpdateAlbum(int id, Album album) { return null; }
