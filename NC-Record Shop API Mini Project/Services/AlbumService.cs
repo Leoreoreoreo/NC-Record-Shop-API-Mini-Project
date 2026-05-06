@@ -34,7 +34,10 @@ namespace NC_Record_Shop_API_Mini_Project.Services
         {
             return _albumRepository.AddAlbum(album);
         }
-        public Album UpdateAlbum(int id, Album album) { return null; }
+        public Album UpdateAlbum(int id, Album album)
+        {
+            return _albumRepository.UpdateAlbum(id, album);
+        }
         public bool DeleteAlbum(int id) { return false; }
     }
 }

@@ -35,6 +35,14 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
             return CreatedAtAction(nameof(GetAlbumById), new { id = result.Id }, result);
         }
 
+        [HttpPut("{id}")]
+        public ActionResult UpdateAlbum(int id, Album album)
+        {
+            var result = _albumService.UpdateAlbum(id, album);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
 
     }
 }

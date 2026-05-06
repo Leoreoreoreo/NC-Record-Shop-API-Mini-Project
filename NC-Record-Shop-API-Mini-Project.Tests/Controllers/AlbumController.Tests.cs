@@ -49,4 +49,30 @@ public class AlbumControllerTests
 
         Assert.IsType<CreatedAtActionResult>(result);
     }
+
+    [Fact]
+    public void UpdateAlbum_ValidId_ShouldReturnOk()
+    {
+        var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.UpdateAlbum(1, album)).Returns(album);
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.UpdateAlbum(1, album);
+
+        Assert.IsType<OkObjectResult>(result);
+    }
+
+    [Fact]
+    public void UpdateAlbum_InvalidId_ShouldReturnNotFound()
+    {
+        var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.UpdateAlbum(100, album)).Returns((Album)null);
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.UpdateAlbum(100, album);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
 }

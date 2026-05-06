@@ -63,6 +63,33 @@ public class AlbumRepositoryTests
         Assert.NotNull(result);
         Assert.True(result.Id > 0);
     }
+    [Fact]
+    public void UpdateAlbum_ValidId_ShouldReturnUpdatedAlbum()
+    {
+        var context = CreateInMemoryContext();
+        var album = new Album { Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        context.Albums.Add(album);
+        context.SaveChanges();
+
+        var repository = new AlbumRepository(context);
+        var updatedAlbum = new Album { Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+        var result = repository.UpdateAlbum(album.Id, updatedAlbum);
+
+        Assert.NotNull(result);
+        Assert.Equal("Let It Be", result.Name);
+    }
+
+    [Fact]
+    public void UpdateAlbum_InvalidId_ShouldReturnNull()
+    {
+        var context = CreateInMemoryContext();
+        var repository = new AlbumRepository(context);
+        var updatedAlbum = new Album { Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+
+        var result = repository.UpdateAlbum(100, updatedAlbum);
+
+        Assert.Null(result);
+    }
 
 
 }

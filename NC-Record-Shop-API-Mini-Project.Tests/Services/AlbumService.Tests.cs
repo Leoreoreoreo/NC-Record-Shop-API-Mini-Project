@@ -38,6 +38,7 @@ public class AlbumServiceTests
 
         Assert.Null(result);
     }
+    [Fact]
     public void AddAlbum_ValidAlbum_ShouldReturnCreatedAlbum()
     {
         var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
@@ -48,5 +49,32 @@ public class AlbumServiceTests
 
         Assert.NotNull(result);
         Assert.True(result.Id > 0);
+    }
+
+    [Fact]
+    public void UpdateAlbum_ValidId_ShouldReturnUpdatedAlbum()
+    {
+        var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.UpdateAlbum(1, album)).Returns(album);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.UpdateAlbum(1, album);
+
+        Assert.NotNull(result);
+        Assert.Equal("Let It Be", result.Name);
+    }
+
+    [Fact]
+    public void UpdateAlbum_InvalidId_ShouldReturnNull()
+    {
+        var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.UpdateAlbum(100, album)).Returns((Album)null);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.UpdateAlbum(100, album);
+
+        Assert.Null(result);
     }
 }

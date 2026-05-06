@@ -32,7 +32,18 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
             _appDbContext.SaveChanges();
             return album;
         }
-        public Album UpdateAlbum(int id, Album album) { return null; }
+        public Album UpdateAlbum(int id, Album album)
+        {
+            var existing = _appDbContext.Albums.FirstOrDefault(a => a.Id == id);
+            if (existing == null) return null;
+            existing.Name = album.Name;
+            existing.Artist = album.Artist;
+            existing.Genre = album.Genre;
+            existing.ReleaseYear = album.ReleaseYear;
+            existing.Stock = album.Stock;
+            _appDbContext.SaveChanges();
+            return existing;
+        }
         public bool DeleteAlbum(int id) { return false; }
 
     }
