@@ -1,5 +1,5 @@
 using NC_Record_Shop_API_Mini_Project.Models;
-
+using NC_Record_Shop_API_Mini_Project.Data;
 namespace NC_Record_Shop_API_Mini_Project.Repositories
 {
     public interface IAlbumRepository
@@ -13,6 +13,11 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
     }
     public class AlbumRepository : IAlbumRepository
     {
+        private readonly AppDbContext _appDbContext;
+        public AlbumRepository(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
         public List<Album> GetAllAlbums() { return null; }
         public Album GetAlbumById(int id) { return null; }
         public Album AddAlbum(Album album) { return null; }
