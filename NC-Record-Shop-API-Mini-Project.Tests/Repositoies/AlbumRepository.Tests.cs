@@ -51,5 +51,18 @@ public class AlbumRepositoryTests
 
         Assert.Null(result);
     }
+    [Fact]
+    public void AddAlbum_ValidAlbum_ShouldReturnCreatedAlbum()
+    {
+        var context = CreateInMemoryContext();
+        var repository = new AlbumRepository(context);
+        var album = new Album { Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+
+        var result = repository.AddAlbum(album);
+
+        Assert.NotNull(result);
+        Assert.True(result.Id > 0);
+    }
+
 
 }

@@ -38,4 +38,15 @@ public class AlbumControllerTests
 
         Assert.IsType<NotFoundResult>(result);
     }
+    [Fact]
+    public void AddAlbum_ValidAlbum_ShouldReturnCreatedAlbum()
+    {
+        var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(r => r.AddAlbum(album)).Returns(album);
+        var controller = new AlbumController(mockService.Object);
+        var result = controller.AddAlbum(album);
+
+        Assert.IsType<CreatedAtActionResult>(result);
+    }
 }

@@ -26,7 +26,12 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         { 
             return _appDbContext.Albums.FirstOrDefault(a => a.Id == id); 
         }
-        public Album AddAlbum(Album album) { return null; }
+        public Album AddAlbum(Album album)
+        {
+            _appDbContext.Albums.Add(album);
+            _appDbContext.SaveChanges();
+            return album;
+        }
         public Album UpdateAlbum(int id, Album album) { return null; }
         public bool DeleteAlbum(int id) { return false; }
 

@@ -38,4 +38,15 @@ public class AlbumServiceTests
 
         Assert.Null(result);
     }
+    public void AddAlbum_ValidAlbum_ShouldReturnCreatedAlbum()
+    {
+        var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.AddAlbum(album)).Returns(album);
+        var serivce = new AlbumService(mockRepository.Object);
+        var result = serivce.AddAlbum(album);
+
+        Assert.NotNull(result);
+        Assert.True(result.Id > 0);
+    }
 }

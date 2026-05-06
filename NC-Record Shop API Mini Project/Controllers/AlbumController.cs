@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NC_Record_Shop_API_Mini_Project.Models;
 using NC_Record_Shop_API_Mini_Project.Services;
 
 namespace NC_Record_Shop_API_Mini_Project.Controllers
@@ -27,6 +28,13 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
             if (result == null) return NotFound();
             return Ok(result);
         }
+        [HttpPost]
+        public ActionResult AddAlbum(Album album)
+        {
+            var result = _albumService.AddAlbum(album);
+            return CreatedAtAction(nameof(GetAlbumById), new { id = result.Id }, result);
+        }
+
 
     }
 }
