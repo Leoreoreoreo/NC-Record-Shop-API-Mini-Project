@@ -5,7 +5,7 @@ using NC_Record_Shop_API_Mini_Project.Services;
 using NC_Record_Shop_API_Mini_Project.Models;
 namespace NC_Record_Shop_API_Mini_Project.Tests;
 
-public class ControllersTest
+public class AlbumControllerTests
 {
     [Fact]
     public void GetAllAlbums_MockService_ShouldReturnOk()
