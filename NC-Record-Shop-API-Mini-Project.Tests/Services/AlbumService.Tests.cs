@@ -16,4 +16,16 @@ public class AlbumServiceTests
         var result = service.GetAllAlbums();
         Assert.IsType<List<Album>>(result);
     }
+    [Fact]
+    public void GetAlbumById_ValidId_ShouldReturnAlbum()
+    {
+        var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.GetAlbumById(1)).Returns(album);
+        var serivce = new AlbumService(mockRepository.Object);
+        var result = serivce.GetAlbumById(1);
+
+        Assert.NotNull(result);
+        Assert.Equal(1, result.Id);
+    }
 }
