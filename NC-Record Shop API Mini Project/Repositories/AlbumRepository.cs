@@ -22,7 +22,10 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         { 
             return _appDbContext.Albums.ToList(); 
         }
-        public Album GetAlbumById(int id) { return null; }
+        public Album GetAlbumById(int id) 
+        { 
+            return _appDbContext.Albums.FirstOrDefault(a => a.Id == id); 
+        }
         public Album AddAlbum(Album album) { return null; }
         public Album UpdateAlbum(int id, Album album) { return null; }
         public bool DeleteAlbum(int id) { return false; }

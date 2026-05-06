@@ -24,4 +24,19 @@ public class AlbumRepositoryTests
 
         Assert.IsType<List<Album>>(result);
     }
+    [Fact]
+    public void GetAlbumById_ValidId_ShouldReturnAlbum()
+    {
+        var context = CreateInMemoryContext();
+        var album = new Album { Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        context.Albums.Add(album);
+        context.SaveChanges();
+
+        var repository = new AlbumRepository(context);
+        var result = repository.GetAlbumById(album.Id);
+
+        Assert.NotNull(result);
+        Assert.Equal(album.Id, result.Id);
+    }
+
 }
