@@ -17,4 +17,25 @@ public class AlbumControllerTests
         var result = controller.GetAllAlbums();
         Assert.IsType<OkObjectResult>(result);
     }
+    [Fact]
+    public void GetAlbumById_ValidId_ShouldReturnOk()
+    {
+        var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(r => r.GetAlbumById(1)).Returns(album);
+        var controller = new AlbumController(mockService.Object);
+        var result = controller.GetAlbumById(1);
+
+        Assert.IsType<OkObjectResult>(result);
+    }
+    [Fact]
+    public void GetAlbumById_InValidId_ShouldReturnNotFound()
+    {
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(r => r.GetAlbumById(100)).Returns((Album)null);
+        var controller = new AlbumController(mockService.Object);
+        var result = controller.GetAlbumById(100);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
 }

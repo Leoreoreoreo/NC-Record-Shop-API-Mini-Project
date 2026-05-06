@@ -28,4 +28,14 @@ public class AlbumServiceTests
         Assert.NotNull(result);
         Assert.Equal(1, result.Id);
     }
+    [Fact]
+    public void GetAlbumById_InValidId_ShouldReturnNull()
+    {
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.GetAlbumById(100)).Returns((Album)null);
+        var serivce = new AlbumService(mockRepository.Object);
+        var result = serivce.GetAlbumById(100);
+
+        Assert.Null(result);
+    }
 }

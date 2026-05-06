@@ -20,5 +20,13 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
             var result = _albumService.GetAllAlbums();
             return Ok(result);
         }
+        [HttpGet("{id}")]
+        public ActionResult GetAlbumById(int id)
+        {
+            var result = _albumService.GetAlbumById(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
     }
 }
