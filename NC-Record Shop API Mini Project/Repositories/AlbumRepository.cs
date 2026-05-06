@@ -44,7 +44,14 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
             _appDbContext.SaveChanges();
             return existing;
         }
-        public bool DeleteAlbum(int id) { return false; }
+        public bool DeleteAlbum(int id)
+        {
+            var existing = _appDbContext.Albums.FirstOrDefault(a => a.Id == id);
+            if (existing == null) return false;
+            _appDbContext.Albums.Remove(existing);
+            _appDbContext.SaveChanges();
+            return true;
+        }
 
     }
 }

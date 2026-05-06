@@ -43,6 +43,14 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult DeleteAlbum(int id)
+        {
+            var result = _albumService.DeleteAlbum(id);
+            if (!result) return NotFound();
+            return NoContent();
+        }
+
 
     }
 }

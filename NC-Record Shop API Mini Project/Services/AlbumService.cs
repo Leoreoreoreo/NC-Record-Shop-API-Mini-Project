@@ -38,6 +38,9 @@ namespace NC_Record_Shop_API_Mini_Project.Services
         {
             return _albumRepository.UpdateAlbum(id, album);
         }
-        public bool DeleteAlbum(int id) { return false; }
+        public bool DeleteAlbum(int id)
+        {
+            return _albumRepository.DeleteAlbum(id);
+        }
     }
 }

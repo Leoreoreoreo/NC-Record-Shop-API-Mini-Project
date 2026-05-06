@@ -75,4 +75,28 @@ public class AlbumControllerTests
 
         Assert.IsType<NotFoundResult>(result);
     }
+
+    [Fact]
+    public void DeleteAlbum_ValidId_ShouldReturnNoContent()
+    {
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.DeleteAlbum(1)).Returns(true);
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.DeleteAlbum(1);
+
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public void DeleteAlbum_InvalidId_ShouldReturnNotFound()
+    {
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.DeleteAlbum(100)).Returns(false);
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.DeleteAlbum(100);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
 }

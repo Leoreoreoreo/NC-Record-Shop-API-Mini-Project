@@ -77,4 +77,28 @@ public class AlbumServiceTests
 
         Assert.Null(result);
     }
+
+    [Fact]
+    public void DeleteAlbum_ValidId_ShouldReturnTrue()
+    {
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.DeleteAlbum(1)).Returns(true);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.DeleteAlbum(1);
+
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void DeleteAlbum_InvalidId_ShouldReturnFalse()
+    {
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.DeleteAlbum(100)).Returns(false);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.DeleteAlbum(100);
+
+        Assert.False(result);
+    }
 }

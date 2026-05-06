@@ -91,5 +91,29 @@ public class AlbumRepositoryTests
         Assert.Null(result);
     }
 
+    [Fact]
+    public void DeleteAlbum_ValidId_ShouldReturnTrue()
+    {
+        var context = CreateInMemoryContext();
+        var album = new Album { Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
+        context.Albums.Add(album);
+        context.SaveChanges();
 
+        var repository = new AlbumRepository(context);
+        var result = repository.DeleteAlbum(album.Id);
+
+        Assert.True(result);
+        Assert.Null(context.Albums.FirstOrDefault(a => a.Id == album.Id));
+    }
+
+    [Fact]
+    public void DeleteAlbum_InvalidId_ShouldReturnFalse()
+    {
+        var context = CreateInMemoryContext();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.DeleteAlbum(100);
+
+        Assert.False(result);
+    }
 }
