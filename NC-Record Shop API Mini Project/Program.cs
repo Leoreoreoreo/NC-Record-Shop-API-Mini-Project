@@ -15,9 +15,16 @@ namespace NC_Record_Shop_API_Mini_Project
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                                    options.UseInMemoryDatabase(
-            builder.Configuration.GetConnectionString("DefaultConnection")!));
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            if (builder.Environment.IsDevelopment())
+                options.UseInMemoryDatabase(
+                    builder.Configuration.GetConnectionString("DefaultConnection")!);
+            else
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection")!);
+        });
+
             builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
