@@ -41,6 +41,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
             existing.Genre = album.Genre;
             existing.ReleaseYear = album.ReleaseYear;
             existing.Stock = album.Stock;
+            existing.Price = album.Price;
             _appDbContext.SaveChanges();
             return existing;
         }
