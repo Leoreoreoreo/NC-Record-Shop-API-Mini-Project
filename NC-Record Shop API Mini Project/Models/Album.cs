@@ -8,5 +8,6 @@ namespace NC_Record_Shop_API_Mini_Project.Models
         public required string Genre {get; set;}
         public int ReleaseYear {get; set;}
         public int Stock {get; set;}
+        public decimal Price {get; set;}
     }
 }
