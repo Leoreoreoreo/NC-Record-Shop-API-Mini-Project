@@ -25,7 +25,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         public ActionResult GetAlbumById(int id)
         {
             var result = _albumService.GetAlbumById(id);
-            if (result == null) return NotFound();
+            if (result == null) return NotFound($"No album found with id {id}.");
             return Ok(result);
         }
         [HttpPost]
@@ -39,7 +39,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         public ActionResult UpdateAlbum(int id, Album album)
         {
             var result = _albumService.UpdateAlbum(id, album);
-            if (result == null) return NotFound();
+            if (result == null) return NotFound($"No album found with id {id}.");
             return Ok(result);
         }
 
@@ -47,7 +47,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         public ActionResult DeleteAlbum(int id)
         {
             var result = _albumService.DeleteAlbum(id);
-            if (!result) return NotFound();
+            if (!result) return NotFound($"No album found with id {id}.");
             return NoContent();
         }
 

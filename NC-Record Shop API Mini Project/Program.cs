@@ -31,8 +31,12 @@ namespace NC_Record_Shop_API_Mini_Project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddProblemDetails();
 
             var app = builder.Build();
+
+            // Return a clean ProblemDetails response for any unhandled exception.
+            app.UseExceptionHandler();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

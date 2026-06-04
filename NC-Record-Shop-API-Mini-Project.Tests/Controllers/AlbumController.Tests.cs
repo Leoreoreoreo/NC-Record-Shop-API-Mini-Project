@@ -36,7 +36,7 @@ public class AlbumControllerTests
         var controller = new AlbumController(mockService.Object);
         var result = controller.GetAlbumById(100);
 
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
     [Fact]
     public void AddAlbum_ValidAlbum_ShouldReturnCreatedAlbum()
@@ -73,7 +73,7 @@ public class AlbumControllerTests
 
         var result = controller.UpdateAlbum(100, album);
 
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
@@ -97,6 +97,6 @@ public class AlbumControllerTests
 
         var result = controller.DeleteAlbum(100);
 
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
 }
