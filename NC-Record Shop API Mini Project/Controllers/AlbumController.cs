@@ -16,10 +16,13 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllAlbums()
+        public ActionResult GetAllAlbums([FromQuery] string? artist = null, [FromQuery] string? genre = null, [FromQuery] int? releaseYear = null, [FromQuery] string? name = null)
         {
-            var result = _albumService.GetAllAlbums();
-            return Ok(result);
+            if (artist == null && genre == null && releaseYear == null && name == null)
+            {
+                return Ok(_albumService.GetAllAlbums());
+            }
+            return Ok(_albumService.GetFilteredAlbums(artist, genre, releaseYear, name));
         }
         [HttpGet("{id}")]
         public ActionResult GetAlbumById(int id)

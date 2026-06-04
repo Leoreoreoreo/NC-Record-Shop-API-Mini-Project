@@ -7,6 +7,7 @@ namespace NC_Record_Shop_API_Mini_Project.Services
     public interface IAlbumService
     {
         List<Album> GetAllAlbums();
+        List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name);
         Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
         Album? UpdateAlbum(int id, Album album);
@@ -24,7 +25,11 @@ namespace NC_Record_Shop_API_Mini_Project.Services
         public List<Album> GetAllAlbums()
         {
             return _albumRepository.GetAllAlbums();
-            
+
+        }
+        public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
+        {
+            return _albumRepository.GetFilteredAlbums(artist, genre, releaseYear, name);
         }
         public Album? GetAlbumById(int id)
         {

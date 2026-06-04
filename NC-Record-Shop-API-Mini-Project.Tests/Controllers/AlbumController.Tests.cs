@@ -18,6 +18,22 @@ public class AlbumControllerTests
         Assert.IsType<OkObjectResult>(result);
     }
     [Fact]
+    public void GetAllAlbums_WithFilter_ShouldReturnOk()
+    {
+        var albums = new List<Album>
+        {
+            new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 }
+        };
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.GetFilteredAlbums("The Beatles", null, null, null)).Returns(albums);
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.GetAllAlbums("The Beatles", null, null, null);
+
+        Assert.IsType<OkObjectResult>(result);
+        mockService.Verify(s => s.GetFilteredAlbums("The Beatles", null, null, null), Times.Once);
+    }
+    [Fact]
     public void GetAlbumById_ValidId_ShouldReturnOk()
     {
         var album = new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 };
