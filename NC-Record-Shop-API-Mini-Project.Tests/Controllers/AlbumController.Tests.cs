@@ -32,7 +32,7 @@ public class AlbumControllerTests
     public void GetAlbumById_InValidId_ShouldReturnNotFound()
     {
         var mockService = new Mock<IAlbumService>();
-        mockService.Setup(r => r.GetAlbumById(100)).Returns((Album)null);
+        mockService.Setup(r => r.GetAlbumById(100)).Returns((Album?)null);
         var controller = new AlbumController(mockService.Object);
         var result = controller.GetAlbumById(100);
 
@@ -68,7 +68,7 @@ public class AlbumControllerTests
     {
         var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
         var mockService = new Mock<IAlbumService>();
-        mockService.Setup(s => s.UpdateAlbum(100, album)).Returns((Album)null);
+        mockService.Setup(s => s.UpdateAlbum(100, album)).Returns((Album?)null);
         var controller = new AlbumController(mockService.Object);
 
         var result = controller.UpdateAlbum(100, album);

@@ -32,7 +32,7 @@ public class AlbumServiceTests
     public void GetAlbumById_InValidId_ShouldReturnNull()
     {
         var mockRepository = new Mock<IAlbumRepository>();
-        mockRepository.Setup(r => r.GetAlbumById(100)).Returns((Album)null);
+        mockRepository.Setup(r => r.GetAlbumById(100)).Returns((Album?)null);
         var serivce = new AlbumService(mockRepository.Object);
         var result = serivce.GetAlbumById(100);
 
@@ -70,7 +70,7 @@ public class AlbumServiceTests
     {
         var album = new Album { Id = 1, Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 };
         var mockRepository = new Mock<IAlbumRepository>();
-        mockRepository.Setup(r => r.UpdateAlbum(100, album)).Returns((Album)null);
+        mockRepository.Setup(r => r.UpdateAlbum(100, album)).Returns((Album?)null);
         var service = new AlbumService(mockRepository.Object);
 
         var result = service.UpdateAlbum(100, album);

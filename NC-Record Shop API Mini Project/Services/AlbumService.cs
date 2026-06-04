@@ -7,9 +7,9 @@ namespace NC_Record_Shop_API_Mini_Project.Services
     public interface IAlbumService
     {
         List<Album> GetAllAlbums();
-        Album GetAlbumById(int id);
+        Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
-        Album UpdateAlbum(int id, Album album);
+        Album? UpdateAlbum(int id, Album album);
         bool DeleteAlbum(int id);
     }
 
@@ -26,7 +26,7 @@ namespace NC_Record_Shop_API_Mini_Project.Services
             return _albumRepository.GetAllAlbums();
             
         }
-        public Album GetAlbumById(int id)
+        public Album? GetAlbumById(int id)
         {
             return _albumRepository.GetAlbumById(id);
         }
@@ -34,7 +34,7 @@ namespace NC_Record_Shop_API_Mini_Project.Services
         {
             return _albumRepository.AddAlbum(album);
         }
-        public Album UpdateAlbum(int id, Album album)
+        public Album? UpdateAlbum(int id, Album album)
         {
             return _albumRepository.UpdateAlbum(id, album);
         }

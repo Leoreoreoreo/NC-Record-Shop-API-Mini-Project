@@ -5,9 +5,9 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
     public interface IAlbumRepository
     {
         List<Album> GetAllAlbums();
-        Album GetAlbumById(int id);
+        Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
-        Album UpdateAlbum(int id, Album album);
+        Album? UpdateAlbum(int id, Album album);
         bool DeleteAlbum(int id);
 
     }
@@ -22,9 +22,9 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         { 
             return _appDbContext.Albums.ToList(); 
         }
-        public Album GetAlbumById(int id) 
-        { 
-            return _appDbContext.Albums.FirstOrDefault(a => a.Id == id); 
+        public Album? GetAlbumById(int id)
+        {
+            return _appDbContext.Albums.FirstOrDefault(a => a.Id == id);
         }
         public Album AddAlbum(Album album)
         {
@@ -32,7 +32,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
             _appDbContext.SaveChanges();
             return album;
         }
-        public Album UpdateAlbum(int id, Album album)
+        public Album? UpdateAlbum(int id, Album album)
         {
             var existing = _appDbContext.Albums.FirstOrDefault(a => a.Id == id);
             if (existing == null) return null;
