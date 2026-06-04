@@ -101,4 +101,21 @@ public class AlbumServiceTests
 
         Assert.False(result);
     }
+
+    [Fact]
+    public void GetFilteredAlbums_ShouldReturnAlbumsFromRepository()
+    {
+        var albums = new List<Album>
+        {
+            new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 }
+        };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.GetFilteredAlbums("The Beatles", null, null, null)).Returns(albums);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.GetFilteredAlbums("The Beatles", null, null, null);
+
+        Assert.Single(result);
+        Assert.Equal("The Beatles", result[0].Artist);
+    }
 }

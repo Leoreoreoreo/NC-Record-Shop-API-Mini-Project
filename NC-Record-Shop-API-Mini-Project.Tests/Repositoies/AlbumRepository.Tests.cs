@@ -116,4 +116,86 @@ public class AlbumRepositoryTests
 
         Assert.False(result);
     }
+
+    private AppDbContext CreateContextWithSampleAlbums()
+    {
+        var context = CreateInMemoryContext();
+        context.Albums.AddRange(
+            new Album { Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 },
+            new Album { Name = "Let It Be", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1970, Stock = 3 },
+            new Album { Name = "Kind of Blue", Artist = "Miles Davis", Genre = "Jazz", ReleaseYear = 1959, Stock = 4 }
+        );
+        context.SaveChanges();
+        return context;
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_NoFilters_ShouldReturnAllAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, null, null);
+
+        Assert.Equal(3, result.Count);
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_ByArtist_ShouldReturnMatchingAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums("beatles", null, null, null);
+
+        Assert.Equal(2, result.Count);
+        Assert.All(result, a => Assert.Equal("The Beatles", a.Artist));
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_ByGenre_ShouldReturnMatchingAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, "Jazz", null, null);
+
+        Assert.Single(result);
+        Assert.Equal("Kind of Blue", result[0].Name);
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_ByReleaseYear_ShouldReturnMatchingAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, 1970, null);
+
+        Assert.Single(result);
+        Assert.Equal("Let It Be", result[0].Name);
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_ByNameSubstring_ShouldReturnMatchingAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, null, "blue");
+
+        Assert.Single(result);
+        Assert.Equal("Kind of Blue", result[0].Name);
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_NoMatch_ShouldReturnEmptyList()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums("Nirvana", null, null, null);
+
+        Assert.Empty(result);
+    }
 }
