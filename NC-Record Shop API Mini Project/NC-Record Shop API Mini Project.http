@@ -4,3 +4,8 @@ GET {{NC_Record_Shop_API_Mini_Project_HostAddress}}/api/albums
 Accept: application/json
 
 ###
+
+GET {{NC_Record_Shop_API_Mini_Project_HostAddress}}/health
+Accept: application/json
+
+###
