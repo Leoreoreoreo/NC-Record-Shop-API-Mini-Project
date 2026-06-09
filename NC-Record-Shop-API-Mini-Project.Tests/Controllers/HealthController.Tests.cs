@@ -6,12 +6,12 @@ namespace NC_Record_Shop_API_Mini_Project.Tests;
 
 public class HealthControllerTests
 {
-    private AppDbContext CreateInMemoryContext()
+    private RecordShopDbContext CreateInMemoryContext()
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
+        var options = new DbContextOptionsBuilder<RecordShopDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        return new AppDbContext(options);
+        return new RecordShopDbContext(options);
     }
 
     [Fact]

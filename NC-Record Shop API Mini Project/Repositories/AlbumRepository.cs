@@ -14,8 +14,8 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
     }
     public class AlbumRepository : IAlbumRepository
     {
-        private readonly AppDbContext _appDbContext;
-        public AlbumRepository(AppDbContext appDbContext)
+        private readonly RecordShopDbContext _appDbContext;
+        public AlbumRepository(RecordShopDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }

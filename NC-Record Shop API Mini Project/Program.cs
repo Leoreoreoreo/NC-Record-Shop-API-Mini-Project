@@ -16,7 +16,7 @@ namespace NC_Record_Shop_API_Mini_Project
             // Add services to the container.
 
             builder.Services.AddControllers();
-        builder.Services.AddDbContext<AppDbContext>(options =>
+        builder.Services.AddDbContext<RecordShopDbContext>(options =>
         {
             if (builder.Environment.IsDevelopment())
                 options.UseInMemoryDatabase(
@@ -55,7 +55,7 @@ namespace NC_Record_Shop_API_Mini_Project
             if (app.Environment.IsDevelopment())
             {
                 using var scope = app.Services.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var db = scope.ServiceProvider.GetRequiredService<RecordShopDbContext>();
                 if (!db.Albums.Any())
                 {
                     db.Albums.AddRange(

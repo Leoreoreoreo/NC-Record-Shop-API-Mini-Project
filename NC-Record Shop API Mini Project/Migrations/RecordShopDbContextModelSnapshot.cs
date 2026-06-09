@@ -9,8 +9,8 @@ using NC_Record_Shop_API_Mini_Project.Data;
 
 namespace NC_Record_Shop_API_Mini_Project.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RecordShopDbContext))]
+    partial class RecordShopDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

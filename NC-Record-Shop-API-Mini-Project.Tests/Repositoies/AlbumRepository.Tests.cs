@@ -6,12 +6,12 @@ namespace NC_Record_Shop_API_Mini_Project.Tests;
 
 public class AlbumRepositoryTests
 {
-    private AppDbContext CreateInMemoryContext()
+    private RecordShopDbContext CreateInMemoryContext()
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
+        var options = new DbContextOptionsBuilder<RecordShopDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        return new AppDbContext(options);
+        return new RecordShopDbContext(options);
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class AlbumRepositoryTests
         Assert.False(result);
     }
 
-    private AppDbContext CreateContextWithSampleAlbums()
+    private RecordShopDbContext CreateContextWithSampleAlbums()
     {
         var context = CreateInMemoryContext();
         context.Albums.AddRange(

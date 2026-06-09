@@ -7,9 +7,9 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
     [Route("health")]
     public class HealthController : ControllerBase
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly RecordShopDbContext _appDbContext;
 
-        public HealthController(AppDbContext appDbContext)
+        public HealthController(RecordShopDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
