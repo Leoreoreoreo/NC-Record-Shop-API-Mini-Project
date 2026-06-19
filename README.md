@@ -61,7 +61,8 @@ an environment variable or secret). Reads and the ratings endpoints are open.
 
 ### Sorting
 
-Add `sortBy` to order the results: `name`, `artist`, `releaseYear` or `price`. Add `order=desc`
+Add `sortBy` to order the results: `name`, `artist`, `releaseYear`, `price` or `rating`
+(`rating` sorts by the album's average rating; unrated albums count as 0). Add `order=desc`
 for descending (the default is ascending), for example `/api/albums?sortBy=price&order=desc`.
 Sorting works on its own and combines with the filters and with pagination.
 
@@ -90,5 +91,4 @@ dotnet test
 
 ## Things I'd add next
 
-- Sorting by an album's average rating
 - Replacing the single API key with proper user accounts

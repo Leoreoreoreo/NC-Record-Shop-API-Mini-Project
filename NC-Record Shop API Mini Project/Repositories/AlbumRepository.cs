@@ -56,7 +56,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
                 query = query.Where(a => a.Name.ToLower().Contains(name.ToLower()));
             return query;
         }
-        private static IQueryable<Album> ApplySort(IQueryable<Album> query, string? sortBy, string? order)
+        private IQueryable<Album> ApplySort(IQueryable<Album> query, string? sortBy, string? order)
         {
             var descending = string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase);
             switch (sortBy?.ToLower())
@@ -69,6 +69,10 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
                     return descending ? query.OrderByDescending(a => a.ReleaseYear) : query.OrderBy(a => a.ReleaseYear);
                 case "price":
                     return descending ? query.OrderByDescending(a => a.Price) : query.OrderBy(a => a.Price);
+                case "rating":
+                    return descending
+                        ? query.OrderByDescending(a => _appDbContext.Ratings.Where(r => r.AlbumId == a.Id).Average(r => (double?)r.Stars) ?? 0.0)
+                        : query.OrderBy(a => _appDbContext.Ratings.Where(r => r.AlbumId == a.Id).Average(r => (double?)r.Stars) ?? 0.0);
                 default:
                     return query;
             }
