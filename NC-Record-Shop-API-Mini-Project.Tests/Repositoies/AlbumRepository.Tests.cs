@@ -135,7 +135,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums(null, null, null, null);
+        var result = repository.GetFilteredAlbums(null, null, null, null, null, null);
 
         Assert.Equal(3, result.Count);
     }
@@ -146,7 +146,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums("beatles", null, null, null);
+        var result = repository.GetFilteredAlbums("beatles", null, null, null, null, null);
 
         Assert.Equal(2, result.Count);
         Assert.All(result, a => Assert.Equal("The Beatles", a.Artist));
@@ -158,7 +158,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums(null, "Jazz", null, null);
+        var result = repository.GetFilteredAlbums(null, "Jazz", null, null, null, null);
 
         Assert.Single(result);
         Assert.Equal("Kind of Blue", result[0].Name);
@@ -170,7 +170,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums(null, null, 1970, null);
+        var result = repository.GetFilteredAlbums(null, null, 1970, null, null, null);
 
         Assert.Single(result);
         Assert.Equal("Let It Be", result[0].Name);
@@ -182,7 +182,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums(null, null, null, "blue");
+        var result = repository.GetFilteredAlbums(null, null, null, "blue", null, null);
 
         Assert.Single(result);
         Assert.Equal("Kind of Blue", result[0].Name);
@@ -194,7 +194,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetFilteredAlbums("Nirvana", null, null, null);
+        var result = repository.GetFilteredAlbums("Nirvana", null, null, null, null, null);
 
         Assert.Empty(result);
     }
@@ -205,7 +205,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetPagedAlbums(null, null, null, null, 1, 2);
+        var result = repository.GetPagedAlbums(null, null, null, null, 1, 2, null, null);
 
         Assert.Equal(2, result.Albums.Count);
         Assert.Equal(1, result.Page);
@@ -220,7 +220,7 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetPagedAlbums(null, null, null, null, 2, 2);
+        var result = repository.GetPagedAlbums(null, null, null, null, 2, 2, null, null);
 
         Assert.Single(result.Albums);
         Assert.Equal(3, result.TotalCount);
@@ -232,11 +232,44 @@ public class AlbumRepositoryTests
         var context = CreateContextWithSampleAlbums();
         var repository = new AlbumRepository(context);
 
-        var result = repository.GetPagedAlbums("beatles", null, null, null, 1, 1);
+        var result = repository.GetPagedAlbums("beatles", null, null, null, 1, 1, null, null);
 
         Assert.Single(result.Albums);
         Assert.Equal("The Beatles", result.Albums[0].Artist);
         Assert.Equal(2, result.TotalCount);
         Assert.Equal(2, result.TotalPages);
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_SortByReleaseYearAscending_ShouldReturnOldestFirst()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, null, null, "releaseYear", "asc");
+
+        Assert.Equal(new[] { 1959, 1969, 1970 }, result.Select(a => a.ReleaseYear).ToArray());
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_SortByReleaseYearDescending_ShouldReturnNewestFirst()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, null, null, "releaseYear", "desc");
+
+        Assert.Equal(new[] { 1970, 1969, 1959 }, result.Select(a => a.ReleaseYear).ToArray());
+    }
+
+    [Fact]
+    public void GetFilteredAlbums_SortByName_ShouldReturnAlphabeticalOrder()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetFilteredAlbums(null, null, null, null, "name", null);
+
+        Assert.Equal(new[] { "Abbey Road", "Kind of Blue", "Let It Be" }, result.Select(a => a.Name).ToArray());
     }
 }

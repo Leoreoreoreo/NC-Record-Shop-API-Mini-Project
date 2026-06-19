@@ -17,7 +17,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllAlbums([FromQuery] string? artist = null, [FromQuery] string? genre = null, [FromQuery] int? releaseYear = null, [FromQuery] string? name = null, [FromQuery] int page = 1, [FromQuery] int? pageSize = null)
+        public ActionResult GetAllAlbums([FromQuery] string? artist = null, [FromQuery] string? genre = null, [FromQuery] int? releaseYear = null, [FromQuery] string? name = null, [FromQuery] int page = 1, [FromQuery] int? pageSize = null, [FromQuery] string? sortBy = null, [FromQuery] string? order = null)
         {
             if (pageSize != null)
             {
@@ -25,13 +25,13 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
                 var size = pageSize.Value;
                 if (size < 1) size = 10;
                 if (size > 100) size = 100;
-                return Ok(_albumService.GetPagedAlbums(artist, genre, releaseYear, name, page, size));
+                return Ok(_albumService.GetPagedAlbums(artist, genre, releaseYear, name, page, size, sortBy, order));
             }
-            if (artist == null && genre == null && releaseYear == null && name == null)
+            if (artist == null && genre == null && releaseYear == null && name == null && sortBy == null)
             {
                 return Ok(_albumService.GetAllAlbums());
             }
-            return Ok(_albumService.GetFilteredAlbums(artist, genre, releaseYear, name));
+            return Ok(_albumService.GetFilteredAlbums(artist, genre, releaseYear, name, sortBy, order));
         }
         [HttpGet("{id}")]
         public ActionResult GetAlbumById(int id)
