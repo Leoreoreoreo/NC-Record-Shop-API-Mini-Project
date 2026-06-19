@@ -198,4 +198,45 @@ public class AlbumRepositoryTests
 
         Assert.Empty(result);
     }
+
+    [Fact]
+    public void GetPagedAlbums_FirstPage_ShouldReturnRequestedPageAndTotals()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetPagedAlbums(null, null, null, null, 1, 2);
+
+        Assert.Equal(2, result.Albums.Count);
+        Assert.Equal(1, result.Page);
+        Assert.Equal(2, result.PageSize);
+        Assert.Equal(3, result.TotalCount);
+        Assert.Equal(2, result.TotalPages);
+    }
+
+    [Fact]
+    public void GetPagedAlbums_LastPage_ShouldReturnRemainingAlbums()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetPagedAlbums(null, null, null, null, 2, 2);
+
+        Assert.Single(result.Albums);
+        Assert.Equal(3, result.TotalCount);
+    }
+
+    [Fact]
+    public void GetPagedAlbums_WithFilter_ShouldPaginateFilteredResults()
+    {
+        var context = CreateContextWithSampleAlbums();
+        var repository = new AlbumRepository(context);
+
+        var result = repository.GetPagedAlbums("beatles", null, null, null, 1, 1);
+
+        Assert.Single(result.Albums);
+        Assert.Equal("The Beatles", result.Albums[0].Artist);
+        Assert.Equal(2, result.TotalCount);
+        Assert.Equal(2, result.TotalPages);
+    }
 }

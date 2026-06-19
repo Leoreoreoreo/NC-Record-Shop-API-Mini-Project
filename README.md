@@ -32,6 +32,24 @@ few albums on startup. In production it connects to SQL Server (see `appsettings
 The filter parameters are optional and can be combined. Artist and name match part of
 the text; genre and release year match exactly.
 
+### Pagination
+
+Add `pageSize` (and optionally `page`, default 1) to page through the results, for example
+`/api/albums?page=2&pageSize=10`. Pagination can be combined with the filters above. When
+`pageSize` is given the response is an object with the albums plus paging info:
+
+```json
+{
+  "albums": [ ... ],
+  "page": 2,
+  "pageSize": 10,
+  "totalCount": 53,
+  "totalPages": 6
+}
+```
+
+Without `pageSize` the endpoint returns the full list as before.
+
 ## Project structure
 
 The app is split into layers:
@@ -57,6 +75,5 @@ dotnet test
 
 ## Things I'd add next
 
-- Pagination for large numbers of albums
 - User ratings
 - Authentication for the add, update and delete endpoints
