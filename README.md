@@ -59,6 +59,12 @@ The write endpoints (POST, PUT and DELETE on `/api/albums`) require an API key. 
 configuration value (a dev value is set in `appsettings.json`; in production it should come from
 an environment variable or secret). Reads and the ratings endpoints are open.
 
+### Sorting
+
+Add `sortBy` to order the results: `name`, `artist`, `releaseYear` or `price`. Add `order=desc`
+for descending (the default is ascending), for example `/api/albums?sortBy=price&order=desc`.
+Sorting works on its own and combines with the filters and with pagination.
+
 ## Project structure
 
 The app is split into layers:
@@ -84,5 +90,5 @@ dotnet test
 
 ## Things I'd add next
 
-- Sorting results by price, release year or rating
+- Sorting by an album's average rating
 - Replacing the single API key with proper user accounts

@@ -110,10 +110,10 @@ public class AlbumServiceTests
             new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 }
         };
         var mockRepository = new Mock<IAlbumRepository>();
-        mockRepository.Setup(r => r.GetFilteredAlbums("The Beatles", null, null, null)).Returns(albums);
+        mockRepository.Setup(r => r.GetFilteredAlbums("The Beatles", null, null, null, null, null)).Returns(albums);
         var service = new AlbumService(mockRepository.Object);
 
-        var result = service.GetFilteredAlbums("The Beatles", null, null, null);
+        var result = service.GetFilteredAlbums("The Beatles", null, null, null, null, null);
 
         Assert.Single(result);
         Assert.Equal("The Beatles", result[0].Artist);
@@ -124,10 +124,10 @@ public class AlbumServiceTests
     {
         var paged = new PagedAlbums { Page = 1, PageSize = 10, TotalCount = 0, TotalPages = 0 };
         var mockRepository = new Mock<IAlbumRepository>();
-        mockRepository.Setup(r => r.GetPagedAlbums(null, null, null, null, 1, 10)).Returns(paged);
+        mockRepository.Setup(r => r.GetPagedAlbums(null, null, null, null, 1, 10, null, null)).Returns(paged);
         var service = new AlbumService(mockRepository.Object);
 
-        var result = service.GetPagedAlbums(null, null, null, null, 1, 10);
+        var result = service.GetPagedAlbums(null, null, null, null, 1, 10, null, null);
 
         Assert.Same(paged, result);
     }

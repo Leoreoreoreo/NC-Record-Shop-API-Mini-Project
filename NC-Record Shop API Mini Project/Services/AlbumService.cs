@@ -7,8 +7,8 @@ namespace NC_Record_Shop_API_Mini_Project.Services
     public interface IAlbumService
     {
         List<Album> GetAllAlbums();
-        List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name);
-        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize);
+        List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name, string? sortBy, string? order);
+        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize, string? sortBy, string? order);
         Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
         Album? UpdateAlbum(int id, Album album);
@@ -28,13 +28,13 @@ namespace NC_Record_Shop_API_Mini_Project.Services
             return _albumRepository.GetAllAlbums();
 
         }
-        public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
+        public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name, string? sortBy, string? order)
         {
-            return _albumRepository.GetFilteredAlbums(artist, genre, releaseYear, name);
+            return _albumRepository.GetFilteredAlbums(artist, genre, releaseYear, name, sortBy, order);
         }
-        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize)
+        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize, string? sortBy, string? order)
         {
-            return _albumRepository.GetPagedAlbums(artist, genre, releaseYear, name, page, pageSize);
+            return _albumRepository.GetPagedAlbums(artist, genre, releaseYear, name, page, pageSize, sortBy, order);
         }
         public Album? GetAlbumById(int id)
         {

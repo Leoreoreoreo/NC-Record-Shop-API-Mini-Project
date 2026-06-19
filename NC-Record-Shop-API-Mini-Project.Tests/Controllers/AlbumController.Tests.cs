@@ -25,26 +25,38 @@ public class AlbumControllerTests
             new Album { Id = 1, Name = "Abbey Road", Artist = "The Beatles", Genre = "Rock", ReleaseYear = 1969, Stock = 5 }
         };
         var mockService = new Mock<IAlbumService>();
-        mockService.Setup(s => s.GetFilteredAlbums("The Beatles", null, null, null)).Returns(albums);
+        mockService.Setup(s => s.GetFilteredAlbums("The Beatles", null, null, null, null, null)).Returns(albums);
         var controller = new AlbumController(mockService.Object);
 
         var result = controller.GetAllAlbums("The Beatles", null, null, null);
 
         Assert.IsType<OkObjectResult>(result);
-        mockService.Verify(s => s.GetFilteredAlbums("The Beatles", null, null, null), Times.Once);
+        mockService.Verify(s => s.GetFilteredAlbums("The Beatles", null, null, null, null, null), Times.Once);
     }
     [Fact]
     public void GetAllAlbums_WithPageSize_ShouldReturnPagedResult()
     {
         var paged = new PagedAlbums { Page = 1, PageSize = 2, TotalCount = 0, TotalPages = 0 };
         var mockService = new Mock<IAlbumService>();
-        mockService.Setup(s => s.GetPagedAlbums(null, null, null, null, 1, 2)).Returns(paged);
+        mockService.Setup(s => s.GetPagedAlbums(null, null, null, null, 1, 2, null, null)).Returns(paged);
         var controller = new AlbumController(mockService.Object);
 
         var result = controller.GetAllAlbums(page: 1, pageSize: 2);
 
         Assert.IsType<OkObjectResult>(result);
-        mockService.Verify(s => s.GetPagedAlbums(null, null, null, null, 1, 2), Times.Once);
+        mockService.Verify(s => s.GetPagedAlbums(null, null, null, null, 1, 2, null, null), Times.Once);
+    }
+    [Fact]
+    public void GetAllAlbums_WithSort_ShouldRequestSortedFilteredAlbums()
+    {
+        var mockService = new Mock<IAlbumService>();
+        mockService.Setup(s => s.GetFilteredAlbums(null, null, null, null, "price", "desc")).Returns(new List<Album>());
+        var controller = new AlbumController(mockService.Object);
+
+        var result = controller.GetAllAlbums(sortBy: "price", order: "desc");
+
+        Assert.IsType<OkObjectResult>(result);
+        mockService.Verify(s => s.GetFilteredAlbums(null, null, null, null, "price", "desc"), Times.Once);
     }
     [Fact]
     public void GetAlbumById_ValidId_ShouldReturnOk()

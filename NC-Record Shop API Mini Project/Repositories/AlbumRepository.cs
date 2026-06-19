@@ -5,8 +5,8 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
     public interface IAlbumRepository
     {
         List<Album> GetAllAlbums();
-        List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name);
-        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize);
+        List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name, string? sortBy, string? order);
+        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize, string? sortBy, string? order);
         Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
         Album? UpdateAlbum(int id, Album album);
@@ -24,14 +24,16 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         {
             return _appDbContext.Albums.ToList();
         }
-        public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
+        public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name, string? sortBy, string? order)
         {
-            return ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name).ToList();
+            var query = ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name);
+            return ApplySort(query, sortBy, order).ToList();
         }
-        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize)
+        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize, string? sortBy, string? order)
         {
             var query = ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name);
             var totalCount = query.Count();
+            query = ApplySort(query, sortBy, order);
             var albums = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return new PagedAlbums
             {
@@ -53,6 +55,23 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
             if (!string.IsNullOrWhiteSpace(name))
                 query = query.Where(a => a.Name.ToLower().Contains(name.ToLower()));
             return query;
+        }
+        private static IQueryable<Album> ApplySort(IQueryable<Album> query, string? sortBy, string? order)
+        {
+            var descending = string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase);
+            switch (sortBy?.ToLower())
+            {
+                case "name":
+                    return descending ? query.OrderByDescending(a => a.Name) : query.OrderBy(a => a.Name);
+                case "artist":
+                    return descending ? query.OrderByDescending(a => a.Artist) : query.OrderBy(a => a.Artist);
+                case "releaseyear":
+                    return descending ? query.OrderByDescending(a => a.ReleaseYear) : query.OrderBy(a => a.ReleaseYear);
+                case "price":
+                    return descending ? query.OrderByDescending(a => a.Price) : query.OrderBy(a => a.Price);
+                default:
+                    return query;
+            }
         }
         public Album? GetAlbumById(int id)
         {
