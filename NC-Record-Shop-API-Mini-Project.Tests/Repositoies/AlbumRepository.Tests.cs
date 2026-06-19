@@ -272,4 +272,26 @@ public class AlbumRepositoryTests
 
         Assert.Equal(new[] { "Abbey Road", "Kind of Blue", "Let It Be" }, result.Select(a => a.Name).ToArray());
     }
+
+    [Fact]
+    public void GetFilteredAlbums_SortByRatingDescending_ShouldReturnHighestRatedFirst()
+    {
+        var context = CreateInMemoryContext();
+        var low = new Album { Name = "Low", Artist = "X", Genre = "Rock", ReleaseYear = 2000, Stock = 1 };
+        var high = new Album { Name = "High", Artist = "Y", Genre = "Rock", ReleaseYear = 2001, Stock = 1 };
+        var unrated = new Album { Name = "Unrated", Artist = "Z", Genre = "Rock", ReleaseYear = 2002, Stock = 1 };
+        context.Albums.AddRange(low, high, unrated);
+        context.SaveChanges();
+        context.Ratings.AddRange(
+            new Rating { AlbumId = low.Id, Stars = 2 },
+            new Rating { AlbumId = high.Id, Stars = 5 },
+            new Rating { AlbumId = high.Id, Stars = 5 }
+        );
+        context.SaveChanges();
+
+        var repository = new AlbumRepository(context);
+        var result = repository.GetFilteredAlbums(null, null, null, null, "rating", "desc");
+
+        Assert.Equal(new[] { "High", "Low", "Unrated" }, result.Select(a => a.Name).ToArray());
+    }
 }
