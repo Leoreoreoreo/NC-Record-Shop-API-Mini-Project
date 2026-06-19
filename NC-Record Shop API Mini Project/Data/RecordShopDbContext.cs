@@ -12,6 +12,8 @@
         }
         public DbSet<Album> Albums {get; set;}
         public DbSet<Rating> Ratings {get; set;}
+        public DbSet<Order> Orders {get; set;}
+        public DbSet<OrderItem> OrderItems {get; set;}
 
         public void Seed()
         {
