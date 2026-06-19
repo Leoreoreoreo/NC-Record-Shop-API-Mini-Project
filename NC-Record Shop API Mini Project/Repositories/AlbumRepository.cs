@@ -25,7 +25,10 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         }
         public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
         {
-            var query = _appDbContext.Albums.AsQueryable();
+            return ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name).ToList();
+        }
+        private static IQueryable<Album> ApplyFilters(IQueryable<Album> query, string? artist, string? genre, int? releaseYear, string? name)
+        {
             if (!string.IsNullOrWhiteSpace(artist))
                 query = query.Where(a => a.Artist.ToLower().Contains(artist.ToLower()));
             if (!string.IsNullOrWhiteSpace(genre))
@@ -34,7 +37,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
                 query = query.Where(a => a.ReleaseYear == releaseYear.Value);
             if (!string.IsNullOrWhiteSpace(name))
                 query = query.Where(a => a.Name.ToLower().Contains(name.ToLower()));
-            return query.ToList();
+            return query;
         }
         public Album? GetAlbumById(int id)
         {
