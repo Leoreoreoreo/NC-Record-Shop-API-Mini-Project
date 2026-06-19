@@ -30,6 +30,8 @@ few albums on startup. In production it connects to SQL Server (see `appsettings
 | POST | `/api/albums/{id}/ratings` | Add a rating (1-5 stars) to an album |
 | GET | `/api/albums/{id}/ratings` | Get an album's average rating and count |
 | GET | `/health` | Check the API and database are healthy |
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Log in and receive a JWT |
 
 The filter parameters are optional and can be combined. Artist and name match part of
 the text; genre and release year match exactly.
@@ -54,10 +56,14 @@ Without `pageSize` the endpoint returns the full list as before.
 
 ### Authentication
 
-The write endpoints (POST, PUT and DELETE on `/api/albums`) require an API key. Send it in an
-`X-Api-Key` header; requests without a valid key get a 401. The key comes from the `ApiKey`
-configuration value (a dev value is set in `appsettings.json`; in production it should come from
-an environment variable or secret). Reads and the ratings endpoints are open.
+Authentication uses ASP.NET Core Identity with JWT bearer tokens. Register with
+`POST /api/auth/register` and log in with `POST /api/auth/login` (both take an email and a
+password); login returns a token to send as an `Authorization: Bearer <token>` header.
+
+The write endpoints (POST, PUT and DELETE on `/api/albums`) require a token from a user in the
+`Admin` role — other signed-in users get a 403 and anonymous requests get a 401. Reads and the
+ratings endpoints are open. A development admin account is seeded on startup (see the `AdminUser`
+config in `appsettings.json`); the JWT signing key and issuer/audience live under `Jwt`.
 
 ### Sorting
 
@@ -91,4 +97,5 @@ dotnet test
 
 ## Things I'd add next
 
-- Replacing the single API key with proper user accounts
+- Refresh tokens so logins last longer
+- A simple orders / checkout flow
