@@ -9,6 +9,7 @@
 
         }
         public DbSet<Album> Albums {get; set;}
+        public DbSet<Rating> Ratings {get; set;}
 
         public void Seed()
         {

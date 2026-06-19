@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NC_Record_Shop_API_Mini_Project.Data;
 
@@ -10,9 +11,11 @@ using NC_Record_Shop_API_Mini_Project.Data;
 namespace NC_Record_Shop_API_Mini_Project.Migrations
 {
     [DbContext(typeof(RecordShopDbContext))]
-    partial class RecordShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260619114650_AddRatings")]
+    partial class AddRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
