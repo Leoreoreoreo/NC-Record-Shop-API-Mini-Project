@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NC_Record_Shop_API_Mini_Project.Filters;
 using NC_Record_Shop_API_Mini_Project.Models;
 using NC_Record_Shop_API_Mini_Project.Services;
 
@@ -40,6 +41,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
             return Ok(result);
         }
         [HttpPost]
+        [ApiKey]
         public ActionResult AddAlbum(Album album)
         {
             var result = _albumService.AddAlbum(album);
@@ -47,6 +49,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpPut("{id}")]
+        [ApiKey]
         public ActionResult UpdateAlbum(int id, Album album)
         {
             var result = _albumService.UpdateAlbum(id, album);
@@ -55,6 +58,7 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ApiKey]
         public ActionResult DeleteAlbum(int id)
         {
             var result = _albumService.DeleteAlbum(id);
