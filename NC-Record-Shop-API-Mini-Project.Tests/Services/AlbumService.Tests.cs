@@ -118,4 +118,17 @@ public class AlbumServiceTests
         Assert.Single(result);
         Assert.Equal("The Beatles", result[0].Artist);
     }
+
+    [Fact]
+    public void GetPagedAlbums_ShouldReturnPagedAlbumsFromRepository()
+    {
+        var paged = new PagedAlbums { Page = 1, PageSize = 10, TotalCount = 0, TotalPages = 0 };
+        var mockRepository = new Mock<IAlbumRepository>();
+        mockRepository.Setup(r => r.GetPagedAlbums(null, null, null, null, 1, 10)).Returns(paged);
+        var service = new AlbumService(mockRepository.Object);
+
+        var result = service.GetPagedAlbums(null, null, null, null, 1, 10);
+
+        Assert.Same(paged, result);
+    }
 }

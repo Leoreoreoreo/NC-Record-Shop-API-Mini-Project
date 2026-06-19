@@ -6,6 +6,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
     {
         List<Album> GetAllAlbums();
         List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name);
+        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize);
         Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
         Album? UpdateAlbum(int id, Album album);
@@ -25,7 +26,24 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
         }
         public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
         {
-            var query = _appDbContext.Albums.AsQueryable();
+            return ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name).ToList();
+        }
+        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize)
+        {
+            var query = ApplyFilters(_appDbContext.Albums.AsQueryable(), artist, genre, releaseYear, name);
+            var totalCount = query.Count();
+            var albums = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return new PagedAlbums
+            {
+                Albums = albums,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+            };
+        }
+        private static IQueryable<Album> ApplyFilters(IQueryable<Album> query, string? artist, string? genre, int? releaseYear, string? name)
+        {
             if (!string.IsNullOrWhiteSpace(artist))
                 query = query.Where(a => a.Artist.ToLower().Contains(artist.ToLower()));
             if (!string.IsNullOrWhiteSpace(genre))
@@ -34,7 +52,7 @@ namespace NC_Record_Shop_API_Mini_Project.Repositories
                 query = query.Where(a => a.ReleaseYear == releaseYear.Value);
             if (!string.IsNullOrWhiteSpace(name))
                 query = query.Where(a => a.Name.ToLower().Contains(name.ToLower()));
-            return query.ToList();
+            return query;
         }
         public Album? GetAlbumById(int id)
         {

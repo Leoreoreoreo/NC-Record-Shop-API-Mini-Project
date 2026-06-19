@@ -16,8 +16,16 @@ namespace NC_Record_Shop_API_Mini_Project.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllAlbums([FromQuery] string? artist = null, [FromQuery] string? genre = null, [FromQuery] int? releaseYear = null, [FromQuery] string? name = null)
+        public ActionResult GetAllAlbums([FromQuery] string? artist = null, [FromQuery] string? genre = null, [FromQuery] int? releaseYear = null, [FromQuery] string? name = null, [FromQuery] int page = 1, [FromQuery] int? pageSize = null)
         {
+            if (pageSize != null)
+            {
+                if (page < 1) page = 1;
+                var size = pageSize.Value;
+                if (size < 1) size = 10;
+                if (size > 100) size = 100;
+                return Ok(_albumService.GetPagedAlbums(artist, genre, releaseYear, name, page, size));
+            }
             if (artist == null && genre == null && releaseYear == null && name == null)
             {
                 return Ok(_albumService.GetAllAlbums());

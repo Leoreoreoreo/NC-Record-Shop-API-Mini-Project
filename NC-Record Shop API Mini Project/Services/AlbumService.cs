@@ -8,6 +8,7 @@ namespace NC_Record_Shop_API_Mini_Project.Services
     {
         List<Album> GetAllAlbums();
         List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name);
+        PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize);
         Album? GetAlbumById(int id);
         Album AddAlbum(Album album);
         Album? UpdateAlbum(int id, Album album);
@@ -30,6 +31,10 @@ namespace NC_Record_Shop_API_Mini_Project.Services
         public List<Album> GetFilteredAlbums(string? artist, string? genre, int? releaseYear, string? name)
         {
             return _albumRepository.GetFilteredAlbums(artist, genre, releaseYear, name);
+        }
+        public PagedAlbums GetPagedAlbums(string? artist, string? genre, int? releaseYear, string? name, int page, int pageSize)
+        {
+            return _albumRepository.GetPagedAlbums(artist, genre, releaseYear, name, page, pageSize);
         }
         public Album? GetAlbumById(int id)
         {
