@@ -32,6 +32,8 @@ few albums on startup. In production it connects to SQL Server (see `appsettings
 | GET | `/health` | Check the API and database are healthy |
 | POST | `/api/auth/register` | Register a new user |
 | POST | `/api/auth/login` | Log in and receive a JWT |
+| POST | `/api/orders` | Check out (place an order) — needs login |
+| GET | `/api/orders` | List the current user's orders — needs login |
 
 The filter parameters are optional and can be combined. Artist and name match part of
 the text; genre and release year match exactly.
@@ -72,6 +74,13 @@ Add `sortBy` to order the results: `name`, `artist`, `releaseYear`, `price` or `
 for descending (the default is ascending), for example `/api/albums?sortBy=price&order=desc`.
 Sorting works on its own and combines with the filters and with pagination.
 
+### Orders
+
+Logged-in users can place orders. `POST /api/orders` takes a list of items
+(`{ "items": [ { "albumId": 1, "quantity": 2 } ] }`); it checks each album has enough stock,
+reduces the stock, records the price at the time of purchase and returns the order with a total.
+`GET /api/orders` returns the signed-in user's own orders. Both require a bearer token.
+
 ## Project structure
 
 The app is split into layers:
@@ -98,4 +107,4 @@ dotnet test
 ## Things I'd add next
 
 - Refresh tokens so logins last longer
-- A simple orders / checkout flow
+- Order confirmation emails

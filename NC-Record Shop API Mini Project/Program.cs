@@ -53,6 +53,8 @@ namespace NC_Record_Shop_API_Mini_Project
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<IRatingRepository, RatingRepository>();
             builder.Services.AddScoped<IRatingService, RatingService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
