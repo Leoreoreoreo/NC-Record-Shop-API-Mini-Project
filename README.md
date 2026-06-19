@@ -27,6 +27,8 @@ few albums on startup. In production it connects to SQL Server (see `appsettings
 | POST | `/api/albums` | Add a new album |
 | PUT | `/api/albums/{id}` | Update an album |
 | DELETE | `/api/albums/{id}` | Delete an album |
+| POST | `/api/albums/{id}/ratings` | Add a rating (1-5 stars) to an album |
+| GET | `/api/albums/{id}/ratings` | Get an album's average rating and count |
 | GET | `/health` | Check the API and database are healthy |
 
 The filter parameters are optional and can be combined. Artist and name match part of
@@ -49,6 +51,13 @@ Add `pageSize` (and optionally `page`, default 1) to page through the results, f
 ```
 
 Without `pageSize` the endpoint returns the full list as before.
+
+### Authentication
+
+The write endpoints (POST, PUT and DELETE on `/api/albums`) require an API key. Send it in an
+`X-Api-Key` header; requests without a valid key get a 401. The key comes from the `ApiKey`
+configuration value (a dev value is set in `appsettings.json`; in production it should come from
+an environment variable or secret). Reads and the ratings endpoints are open.
 
 ## Project structure
 
@@ -75,5 +84,5 @@ dotnet test
 
 ## Things I'd add next
 
-- User ratings
-- Authentication for the add, update and delete endpoints
+- Sorting results by price, release year or rating
+- Replacing the single API key with proper user accounts
